@@ -31,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
 public class SellerListController implements Initializable, DataChangeListener {
@@ -112,8 +113,9 @@ public class SellerListController implements Initializable, DataChangeListener {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 			SellerFormController controller = loader.getController();
-			controller.setDeparment(obj);
-			controller.setDeparmentService(new SellerService());
+			controller.setSeller(obj);
+			controller.setServices(new SellerService(), new DepartmentService());
+			controller.loadAssociatedObjects();
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 			
@@ -128,6 +130,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 			
 		}
 		catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	} 
